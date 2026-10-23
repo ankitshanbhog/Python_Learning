@@ -70,10 +70,11 @@ with open("plants.json","r",encoding="utf-8") as file:
 def view_plants(loaded_plants):
     for pl in loaded_plants:
         print(
-            "Plant : ",pl["name"],"\n",
-            "Medicinal : ",pl["medicinal"],"\n",
-            "Uses : ",pl["uses"],"\n",
-            "Image_count :",pl["image_count"])
+            f"Plant: {pl['name']}\n"
+            f"Medicinal: {pl['medicinal']}\n"
+            f"Uses: {pl['uses']}\n"
+            f"Image count: {pl['image_count']}\n"
+        )
         
 view_plants(loaded_plants)  
 
