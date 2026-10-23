@@ -48,13 +48,16 @@ def load_plants():
         print("No saved records found. Starting with an empty list.")
         return []
     except json.JSONDecodeError:
-        print("The saved file contains invalid JSON.")
-        return []
+        raise 
     else:
         return loadp
 
+try:
+    loaded_plants = load_plants()
+except json.JSONDecodeError:
+    print("Cannot start because the plant data is corrupted.")
+    raise SystemExit
 
-loaded_plants = load_plants()
 
 while True:
     print("\n======= MediPlant Record Manager ======")
@@ -69,25 +72,68 @@ while True:
     if choice == "1":
         view_plants(loaded_plants)
 
+        
     elif choice == "2":
-        new_pl = input("Enter the plant name to add: ")
-        img_c = int(input("Enter the image count for the same: "))
-        new_dict = create_dict(new_pl,img_c)
+        new_pl = input("Enter plant name: ").strip()
+
+        if not new_pl:
+            print("Plant name cannot be empty.")
+            continue
+
+        duplicate = False
+        for plant in loaded_plants:
+            if plant["name"].strip().lower() == new_pl.lower():
+                duplicate = True
+                break
+
+        if duplicate:
+            print("This plant already exists.")
+            continue
+
+        while True:
+            try:
+                img_c = int(input("Enter the image count for the same: "))
+
+                if img_c < 0:
+                    print("Image count cannot be negative.")
+                    continue
+
+                break
+
+            except ValueError:
+                print("Please enter a valid whole number.")
+
+        new_dict = create_dict(new_pl, img_c)
         loaded_plants.append(new_dict)
-        with open("plants.json","w",encoding="utf-8") as file:
-            json.dump(loaded_plants,file,indent=4)
-        print("Successfully Added")
+
+        with open("plants.json", "w", encoding="utf-8") as file:
+            json.dump(loaded_plants, file, indent=4)
+
+        print("Plant added and saved successfully.")
+
 
     elif choice == "3":
-        plant_use = input("Enter the plant for which the use needs to updated: ")
-        use = input("Enter the use to be updated: ")
-        found = add_use(loaded_plants,plant_use,use)
+        plant_use = input("Enter the plant name: ").strip()
+
+        if not plant_use:
+            print("Plant name cannot be empty.")
+            continue
+
+        use = input("Enter the new medicinal use: ").strip()
+
+        if not use:
+            print("Medicinal use cannot be empty.")
+            continue
+
+        found = add_use(loaded_plants, plant_use, use)
+
         if found:
-            with open("plants.json","w",encoding="utf-8") as file:
-                json.dump(loaded_plants,file,indent=4)
-            print("Updated the plant use! ")
+            with open("plants.json", "w", encoding="utf-8") as file:
+                json.dump(loaded_plants, file, indent=4)
+
+            print("Medicinal use added and saved successfully.")
         else:
-            print("No plant found")
+            print("Plant not found.")
 
     elif choice == "4":
         export_to_csv(loaded_plants)
