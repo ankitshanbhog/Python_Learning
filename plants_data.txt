@@ -1,0 +1,8 @@
+{
+    "name": "Tulsi",
+    "medicinal": true,
+    "uses": [
+        "coush-releif",
+        "traditional remedies"
+    ]
+}
