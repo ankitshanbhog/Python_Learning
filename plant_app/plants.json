@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Tulsi",
+        "medicinal": true,
+        "uses": [
+            "traditional remedies",
+            "plant study"
+        ],
+        "image_count": 20
+    },
+    {
+        "name": "Neem",
+        "medicinal": true,
+        "uses": [
+            "antibacterial",
+            "antifungal"
+        ],
+        "image_count": 18
+    },
+    {
+        "name": "Rosemary",
+        "medicinal": true,
+        "uses": [
+            "Hair growth"
+        ],
+        "image_count": 12
+    }
+]
