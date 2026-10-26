@@ -12,7 +12,7 @@ def load_plants():
     except FileNotFoundError:
         return []
     except json.JSONDecodeError:
-        return []
+        raise
 
 def save_plants(plants):
     file_path = (Path(__file__).parent.parent) / "plants.json"
